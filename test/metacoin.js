@@ -11,15 +11,36 @@ function printBalances(){
     printBalances();
 
     var meta = MetaCoin.deployed();
-    meta.sendWei(accounts[1], 1)
-    .then(function() {
-            return meta.getBalance(accounts[1])
+
+    meta.addWeiToAuc({from: accounts[1], value: 12345678901})
+    .then(function(result) {
+        meta.addWeiToAuc({from: accounts[1], value: 12345678901});
+        console.log('r: '+result);
+            return meta.getBalance.call(meta.address)
+    }).then(function(balance) {
+        console.log(balance.toNumber());
+        //assert.equal(balance.valueOf(), 10000, "+10000 wasn't in the second account");
+        console.log('_____send from Auc balance______');
+    });
+    
+
+
+
+
+
+    meta.sendWei(accounts[2], 1111 /*, {from: accounts[1], value: 123456}*/)
+    .then(function(result) {
+        console.log('r: '+result);
+            return meta.getBalance.call(accounts[2])
         })
     .then(function(balance) {
-        console.log(balance);
+        console.log('new Balance is: '+balance.toNumber());
         //assert.equal(balance.valueOf(), 10000, "+10000 wasn't in the second account");
         });
     printBalances();
+
+
     });
 });
+
 
